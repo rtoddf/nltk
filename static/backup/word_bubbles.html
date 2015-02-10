@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
+
+		<title>Python</title>
+		<link href="css/bootstrap.css" rel="stylesheet">
+		<link href="css/overwrites.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				  <a class="navbar-brand" href="index.html">Python</a>
+				</div>
+				<div class="collapse navbar-collapse">
+					<ul class="nav navbar-nav">
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="row">
+                <div class="col-md-12">
+    				<h3>Worm Bubbles</h3>
+    				<p>Click a button on the right to see a visualization of the top ten words in that piece of literature. The text will also display below the visualization. I'm working on a way to highlight each word as you hover over the corresponding bubble.</p>
+				</div>
+			</div>
+            <div class="row">
+                <div class="col-md-9 display">
+                    <div id="example"></div>
+                </div>
+                <div class="col-md-3 book_menu"></div>
+            </div>
+			<div class="row">
+				<div class="col-md-12">
+					<div id="text"></div>
+				</div>
+			</div>
+		</div>
+
+		<script src="scripts/lib/jquery.min.js"></script>
+		<script src="scripts/bootstrap/bootstrap.min.js"></script>
+		<script src="scripts/lib/d3.v3.min.js"></script>
+		<script src="scripts/lib/underscore-min.js"></script>
+		<script src="scripts/word_bubbles.js"></script>
+	</body>
+</html>

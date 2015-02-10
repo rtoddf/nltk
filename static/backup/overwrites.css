@@ -1,0 +1,66 @@
+body {
+	padding-top: 50px;
+	color: #666;
+}
+
+.starter-template {
+	padding: 40px 15px;
+}
+
+pre {
+	font-size: 11px;
+}
+
+.clear {
+	clear: both;
+}
+
+.treatment{
+	width: 100%;
+	margin-bottom:10px;
+	border:1px solid rgba(255,255,255,.25);
+/*	box-shadow:0px 0px 8px rgba(0,0,0,.6)*/
+}
+
+.text_title {
+	font-weight: bold;
+	font-style: italic;
+}
+
+.books {
+	padding: 10px;
+	cursor: pointer;
+	color: rgba(102,102,102,1);
+	border-bottom: 1px solid #fff;
+	opacity: .7;
+}
+
+.books:hover {
+	opacity: 1;
+	color: rgba(0,0,0,1);
+}
+
+.title {
+	opacity: 1;
+	margin-bottom: 0;
+	font-weight: bold;
+}
+
+.author {
+	opacity: 1;
+	font-style: italic;
+}
+
+.books p, .books span{
+	opacity: .9 !important;
+}
+
+.bubble {
+	cursor: pointer;
+}
+
+.bubble-text, .bubble-text-glow {
+	text-transform: uppercase;
+	font-weight: bold;
+	cursor: pointer;
+}
