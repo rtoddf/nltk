@@ -2,7 +2,54 @@
 
 {% block content %}
     <div class="col-md-12">
-        <h4>Helper Text: {{ helper_text }}</h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tempus vulputate malesuada. Praesent malesuada viverra nunc eget cursus. Vestibulum condimentum cursus lectus, at suscipit risus sollicitudin viverra. Etiam pharetra nulla nec enim rutrum porttitor nec ut tellus. Vestibulum scelerisque lectus quis blandit condimentum. Sed nulla nisl, vulputate nec lorem sed, tristique cursus ligula. Donec facilisis sed magna non fermentum. Vestibulum blandit augue sem, vel cursus urna porta et. Nam hendrerit blandit justo, nec dignissim nunc ultrices a. Integer eu consectetur justo.</p>
+        {# <h4>Helper Text: {{ helper_text }}</h4> #}
+        <h4>Gutenberg Files</h4>
+        <ul class="list-unstyled">
+            {% for file in gutenberg_file_ids %}
+                <li>{{ file }}</li>
+            {% endfor %}
+        </ul>
+
+        {#
+        <h4>Brown Files</h4>
+        <ul class="list-unstyled">
+            {% for file in brown_file_ids %}
+                <li>{{ file }}</li>
+            {% endfor %}
+        </ul>
+        #}
+
+        <h4>Brown Categories</h4>
+        <ul class="list-unstyled">
+            {% for file in brown_categories %}
+                <li>{{ file }}</li>
+            {% endfor %}
+        </ul>
+
+        <h4>Inaugural Categories</h4>
+        <ul class="list-unstyled">
+            {% for file in inaugural_file_ids %}
+                <li>{{ file }}</li>
+            {% endfor %}
+        </ul>
+
+        
+        {#
+        <h4>Reuters Categories</h4>
+        <ul class="list-unstyled">
+            {% for file in reuters_categories %}
+                <li>{{ file }}</li>
+            {% endfor %}
+        </ul>
+        #}
+
+        <h4>Raw Text</h4>
+        <p>Text count: {{ text_count }}</p>
+        <p>{{ raw_text }}</p>
+
+        <h4>Uniques</h4>
+        <p>{{ uniqs_count }}</p>
+        <p>{{ uniqs }}</p>
+        
     </div>
 {% endblock content %}
