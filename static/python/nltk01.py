@@ -18,7 +18,4 @@ def lexical_diversity(text):
 def percentage(count, total):
 	return 100 * count/total
 
-print 'moby dick', lexical_diversity(text1)
 print 'percentage', percentage(text1.count('monstrous'), len(text1))
-print 'count for monstrous', text1.count('monstrous')
-print 'moby dick count', len(text1)

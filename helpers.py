@@ -9,7 +9,7 @@ def percentage(count, total):
     return 100 * count/total
 
 def get_lexical_diversity(self):
-    return lexical_diversity(text1)
+    return lexical_diversity(self)
 
 def get_fileids(self):
     return self.fileids()
@@ -29,3 +29,9 @@ def get_uniqs_count(self, address):
 
 def get_uniqs(self, address):
     return set([w.lower() for w in self.words(address)])
+
+def get_word_count(self):
+	return self.count('Alice')
+
+def get_total_word_count(self):
+	return len(self)

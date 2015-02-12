@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="col-md-12">
+        <h4>Words</h4>
+
+        {% for word in alice[:20] %}
+            <p>{{ word }}</p>
+        {% endfor %}
+
+        <p><strong>Lexical diversity percentage:</strong> {{ lexical_diversity_percentage|round(1, 'floor') }}%</p>
+
+        <p><strong>Word count (Alice):</strong> {{ word_count }}</p>
+        <p><strong>Total word count (Alice):</strong> {{ total_word_count }}</p>
+
+        <p><strong>Longest sentence (Macbeth):</strong> {{ longest_len }}</p>
+
+    </div>
+{% endblock content %}
