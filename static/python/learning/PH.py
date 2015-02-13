@@ -1,2 +1,0 @@
-def printMe():
-	print 'panda'

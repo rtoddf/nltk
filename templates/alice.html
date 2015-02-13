@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="col-md-12">
-        <h4>Words</h4>
+        <h4>Alice</h4>
 
         {% for word in alice[:20] %}
             <p>{{ word }}</p>
@@ -12,8 +12,9 @@
 
         <p><strong>Word count (Alice):</strong> {{ word_count }}</p>
         <p><strong>Total word count (Alice):</strong> {{ total_word_count }}</p>
+        <p><strong>concordance_alice (Alice):</strong> {{ concordance_alice }}</p>
 
-        <p><strong>Longest sentence (Macbeth):</strong> {{ longest_len }}</p>
+        <p>text1: {{ text1 }}</p>
 
     </div>
 {% endblock content %}
