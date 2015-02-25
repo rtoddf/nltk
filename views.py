@@ -4,9 +4,6 @@ from flask import render_template
 from app import app
 
 import nltk
-from nltk.corpus import webtext as webtext
-# import nltk.book as book
-
 from helpers import get_lexical_diversity, get_fileids, get_categories, get_raw_text, get_text_count, get_uniqs_count, get_uniqs, get_word_count, get_total_word_count
 
 # from random import choice
@@ -55,6 +52,13 @@ def gutenberg():
 
     # print 'percentage', percentage(text1.count('monstrous'), len(text1))
 
+    macbeth_sents = gutenberg.sents('shakespeare-macbeth.txt')
+
+    print macbeth_sents
+
+    longest_len = max([len(s) for s in macbeth_sents])
+    longest_sent = [s for s in macbeth_sents if len(s) == longest_len]
+
     return render_template('gutenberg.html',
         file_ids=file_ids)
 
@@ -90,29 +94,36 @@ def brown():
 def reuters():
     from nltk.corpus import reuters
     categories = [category for category in reuters.categories()]
-    
-    # raw_text = get_raw_text(inaugural, speech)
-    # text_count = get_text_count(inaugural, speech)
-    # uniqs_count = get_uniqs_count(inaugural, speech)
-    # uniqs = get_uniqs(inaugural, speech)
 
     return render_template('reuters.html',
         categories=categories)
 
+@app.route('/webtext')
+def webtext():
+    from nltk.corpus import webtext as webtext
+    from nltk.corpus import nps_chat
 
+    # list comprehension version
+    file_ids = [fileid for fileid in webtext.fileids()]
+    chat_file_ids = [fileid for fileid in nps_chat.fileids()]
 
-@app.route('/macbeth')
-def words():
-    macbeth_sents = gutenberg.sents('shakespeare-macbeth.txt')
+    pirates = webtext.raw('pirates.txt')
+    pirates_words = len(webtext.words('pirates.txt'))
+    pirates_sents = len(webtext.sents('pirates.txt'))
+    uniqs = len(set([w.lower() for w in webtext.words('pirates.txt')]))
 
-    print macbeth_sents
+    lexical_diversity = lexical_div(uniqs, pirates_words)
 
-    longest_len = max([len(s) for s in macbeth_sents])
-    longest_sent = [s for s in macbeth_sents if len(s) == longest_len]
+    # import nltk.book as book
+    # text1 = book.text1
+    # pirates = webtext.raw('pirates.txt')
 
-    return render_template('macbeth.html',
-        longest_sent=longest_sent)
+    return render_template('webtext.html',
+        file_ids=file_ids,
+        chat_file_ids=chat_file_ids,
+        pirates=pirates)
 
+# movie this to gutenberg
 @app.route('/alice')
 def alice():
     alice = gutenberg.words('carroll-alice.txt')
@@ -137,46 +148,3 @@ def alice():
 
 def lexical_div(un, total):
     return total/un
-
-@app.route('/webtext')
-def webtext():
-    # print webtext.fileids()
-
-    # print nltk.corpus.gutenberg.fileids()
-    # print nltk.corpus.webtext.fileids()
-
-    webtext = nltk.corpus.webtext
-    nps_chat = nltk.corpus.nps_chat
-
-    webtext_ids = [fileid for fileid in webtext.fileids()]
-    nps_chat_ids = [fileid for fileid in nps_chat.fileids()]
-
-
-    pirates = webtext.raw('pirates.txt')
-    pirates_words = len(webtext.words('pirates.txt'))
-    pirates_sents = len(webtext.sents('pirates.txt'))
-    uniqs = len(set([w.lower() for w in webtext.words('pirates.txt')]))
-
-    lexical_diversity = lexical_div(uniqs, pirates_words)
-
-    # text1 = book.text1
-    # pirates = webtext.raw('pirates.txt')
-
-    return render_template('webtext.html',
-        webtext_ids=webtext_ids,
-        nps_chat=nps_chat_ids,
-        pirates=pirates)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
