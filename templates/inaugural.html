@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="col-md-12">
+        <h4>Inaugural Addresses</h4>
+        <p><strong>All File IDs in the Inaugural Corpus</strong></p>
+        <ul class="list-unstyled">
+            {% for file in file_ids %}
+                <li>{{ file }}</li>
+            {% endfor %}
+        </ul>
+
+        <hr />
+
+        <p><strong>Last one: </strong>{{ file_ids[-1] }}</p>
+
+        <p><strong>Text count:  </strong>{{ text_count }}</p>
+        <p><strong>Number of Uniques:  </strong>{{ uniqs_count }}</p>
+        <p><strong>Uniques:  </strong>{{ uniqs }}</p>
+
+        <p><strong>Raw Text: </strong>{{ raw_text }}</p>
+    </div>
+{% endblock content %}

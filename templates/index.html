@@ -2,64 +2,12 @@
 
 {% block content %}
     <div class="col-md-12">
-        {#
-        <h4>Gutenberg Files</h4>
-        <ul class="list-unstyled">
-            {% for file in gutenberg_file_ids %}
-                <li>{{ file }}</li>
-            {% endfor %}
+        <h3>NLTK</h3>
+        <ul>
+            <li><a href="{{ url_for('inaugural') }}">Inaugural Adresses</a></li>
+            <li><a href="{{ url_for('gutenberg') }}">Gutenberg</a></li>
+            <li><a href="{{ url_for('brown') }}">Brown</a></li>
+            <li><a href="{{ url_for('reuters') }}">Reuters</a></li>
         </ul>
-        #}
-
-        {#
-        <h4>Brown Files</h4>
-        <ul class="list-unstyled">
-            {% for file in brown_file_ids %}
-                <li>{{ file }}</li>
-            {% endfor %}
-        </ul>
-        #}
-        {#
-        <h4>Brown Categories</h4>
-        <ul class="list-unstyled">
-            {% for file in brown_categories %}
-                <li>{{ file }}</li>
-            {% endfor %}
-        </ul>
-
-        <h4>Inaugural Categories</h4>
-        <ul class="list-unstyled">
-            {% for file in inaugural_file_ids %}
-                <li>{{ file }}</li>
-            {% endfor %}
-        </ul>
-        #}
-        
-        {#
-        <h4>Reuters Categories</h4>
-        <ul class="list-unstyled">
-            {% for file in reuters_categories %}
-                <li>{{ file }}</li>
-            {% endfor %}
-        </ul>
-        #}
-
-        <h4>Inaugural Addresses</h4>
-        <p><strong>All File IDs in the Inaugural Corpus</strong></p>
-        <ul class="list-unstyled">
-            {% for file in inaugural_file_ids %}
-                <li>{{ file }}</li>
-            {% endfor %}
-        </ul>
-
-        <hr />
-
-        <p><strong>Last one: </strong>{{ inaugural_file_ids[-1] }}</p>
-
-        <p><strong>Text count:  </strong>{{ text_count }}</p>
-        <p><strong>Number of Uniques:  </strong>{{ uniqs_count }}</p>
-        <p><strong>Uniques:  </strong>{{ uniqs }}</p>
-
-        <p><strong>Raw Text: </strong>{{ raw_text }}</p>
     </div>
 {% endblock content %}

@@ -3,13 +3,8 @@ from flask import render_template
 
 from app import app
 
-# import nltk
-from nltk.corpus import gutenberg
-from nltk.corpus import brown
-from nltk.corpus import reuters
-from nltk.corpus import inaugural
+import nltk
 from nltk.corpus import webtext as webtext
-
 # import nltk.book as book
 
 from helpers import get_lexical_diversity, get_fileids, get_categories, get_raw_text, get_text_count, get_uniqs_count, get_uniqs, get_word_count, get_total_word_count
@@ -20,32 +15,91 @@ from helpers import get_lexical_diversity, get_fileids, get_categories, get_raw_
 
 @app.route('/')
 def home():
-    inaugural_file_ids = get_fileids(inaugural)
-    speech = inaugural_file_ids[-1]
-    print inaugural_file_ids
-    
-    # gutenberg_file_ids = get_fileids(gutenberg)
-    # brown_file_ids = get_fileids(brown)
-    # brown_categories = get_categories(brown)
-    # # reuters_categories = get_categories(reuters)
+    return render_template('index.html')
+
+@app.route('/inaugural')
+def inaugural():
+    from nltk.corpus import inaugural
+    file_ids = get_fileids(inaugural)
+    speech = file_ids[-1]
     
     raw_text = get_raw_text(inaugural, speech)
     text_count = get_text_count(inaugural, speech)
     uniqs_count = get_uniqs_count(inaugural, speech)
     uniqs = get_uniqs(inaugural, speech)
 
-    return render_template('index.html',
-        inaugural_file_ids=inaugural_file_ids,
+    return render_template('inaugural.html',
+        file_ids=file_ids,
         raw_text=raw_text,
         text_count=text_count,
         uniqs_count=uniqs_count,
         uniqs=uniqs)
+    # reuters_categories = get_categories(reuters)
+    # reuters_categories=reuters_categories
 
-    # gutenberg_file_ids=gutenberg_file_ids,
-    #     brown_file_ids=brown_file_ids,
-    #     brown_categories=brown_categories,
-    #     # reuters_categories=reuters_categories,
-        
+@app.route('/gutenberg')
+def gutenberg():
+    from nltk.corpus import gutenberg
+    file_ids = get_fileids(gutenberg)
+
+    # average characters in a word: raw/words
+    # average word in a sentence: words/sents
+    # lexical diversity - num_words/num_vocab
+
+    for fileid in file_ids:
+        num_chars = len(gutenberg.raw(fileid))
+        num_words = len(gutenberg.words(fileid))
+        num_sents = len(gutenberg.sents(fileid))
+        num_vocab = len(set([w.lower() for w in gutenberg.words(fileid)]))
+        print int(num_chars/num_words), int(num_words/num_sents), int(num_words/num_vocab), fileid
+
+    # print 'percentage', percentage(text1.count('monstrous'), len(text1))
+
+    return render_template('gutenberg.html',
+        file_ids=file_ids)
+
+@app.route('/brown')
+def brown():
+    from nltk.corpus import brown
+    file_ids = get_fileids(brown)
+
+    categories = [category for category in brown.categories()]
+
+    news_text = brown.words(categories='news')
+    # frequent distribution
+    fdist = nltk.FreqDist([w.lower() for w in news_text])
+
+    most_common = fdist.most_common(50)
+
+    # modal verbs
+    modals_verbs = ['can', 'could', 'may', 'might', 'must', 'will']
+    determiners = ['who', 'which', 'when', 'what', 'where', 'how']
+    modal_verbs = [(modal, fdist[modal]) for modal in modals_verbs]
+    determiners_pos = [(d, fdist[d]) for d in determiners]
+
+    return render_template('brown.html',
+        file_ids=file_ids,
+        categories=categories,
+        news_text=news_text,
+        fdist=fdist,
+        most_common=most_common,
+        modal_verbs=modal_verbs,
+        determiners_pos=determiners_pos) 
+
+@app.route('/reuters')
+def reuters():
+    from nltk.corpus import reuters
+    categories = [category for category in reuters.categories()]
+    
+    # raw_text = get_raw_text(inaugural, speech)
+    # text_count = get_text_count(inaugural, speech)
+    # uniqs_count = get_uniqs_count(inaugural, speech)
+    # uniqs = get_uniqs(inaugural, speech)
+
+    return render_template('reuters.html',
+        categories=categories)
+
+
 
 @app.route('/macbeth')
 def words():
@@ -58,23 +112,6 @@ def words():
 
     return render_template('macbeth.html',
         longest_sent=longest_sent)
-
-@app.route('/fileids')
-def fileids():
-    fileids = gutenberg.fileids()
-
-    # average characters in a word: raw/words
-    # average word in a sentence: words/sents
-    # lexical diversity - num_words/num_vocab
-
-    for fileid in fileids:
-      num_chars = len(gutenberg.raw(fileid))
-      num_words = len(gutenberg.words(fileid))
-      num_sents = len(gutenberg.sents(fileid))
-      num_vocab = len(set([w.lower() for w in gutenberg.words(fileid)]))
-      print int(num_chars/num_words), int(num_words/num_sents), int(num_words/num_vocab), fileid
-
-    # print 'percentage', percentage(text1.count('monstrous'), len(text1))
 
 @app.route('/alice')
 def alice():
@@ -129,32 +166,6 @@ def webtext():
         webtext_ids=webtext_ids,
         nps_chat=nps_chat_ids,
         pirates=pirates)
-
-@app.route('/brown')
-def brown():
-    brown = nltk.corpus.brown
-
-    categories = [category for category in brown.categories()]
-
-    news_text = brown.words(categories='news')
-    # frequent distribution
-    fdist = nltk.FreqDist([w.lower() for w in news_text])
-
-    most_common = fdist.most_common(50)
-
-    # modal verbs
-    modals_verbs = ['can', 'could', 'may', 'might', 'must', 'will']
-    determiners = ['who', 'which', 'when', 'what', 'where', 'how']
-    modal_verbs = [(modal, fdist[modal]) for modal in modals_verbs]
-    determiners_pos = [(d, fdist[d]) for d in determiners]
-
-    return render_template('brown.html',
-        categories=categories,
-        news_text=news_text,
-        fdist=fdist,
-        most_common=most_common,
-        modal_verbs=modal_verbs,
-        determiners_pos=determiners_pos)
 
 
 

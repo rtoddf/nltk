@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="col-md-12">
+        <h4>Gutenberg</h4>
+        <p><strong>All File IDs in the Gutenberg Corpus</strong></p>
+        <ul class="list-unstyled">
+            {% for file in file_ids %}
+                <li>{{ file }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock content %}
