@@ -14,26 +14,6 @@ from helpers import get_lexical_diversity, get_fileids, get_categories, get_raw_
 def home():
     return render_template('index.html')
 
-@app.route('/inaugural')
-def inaugural():
-    from nltk.corpus import inaugural
-    file_ids = get_fileids(inaugural)
-    speech = file_ids[-1]
-    
-    raw_text = get_raw_text(inaugural, speech)
-    text_count = get_text_count(inaugural, speech)
-    uniqs_count = get_uniqs_count(inaugural, speech)
-    uniqs = get_uniqs(inaugural, speech)
-
-    return render_template('inaugural.html',
-        file_ids=file_ids,
-        raw_text=raw_text,
-        text_count=text_count,
-        uniqs_count=uniqs_count,
-        uniqs=uniqs)
-    # reuters_categories = get_categories(reuters)
-    # reuters_categories=reuters_categories
-
 @app.route('/gutenberg')
 def gutenberg():
     from nltk.corpus import gutenberg
@@ -50,53 +30,20 @@ def gutenberg():
         num_vocab = len(set([w.lower() for w in gutenberg.words(fileid)]))
         print int(num_chars/num_words), int(num_words/num_sents), int(num_words/num_vocab), fileid
 
+    emma = gutenberg.words('austen-emma.txt')
+    emma_len = len(emma)
     # print 'percentage', percentage(text1.count('monstrous'), len(text1))
 
     macbeth_sents = gutenberg.sents('shakespeare-macbeth.txt')
-
-    print macbeth_sents
-
-    longest_len = max([len(s) for s in macbeth_sents])
-    longest_sent = [s for s in macbeth_sents if len(s) == longest_len]
+    macbeth_longest_len = max([len(s) for s in macbeth_sents])
+    macbeth_longest_sent = [s for s in macbeth_sents if len(s) == macbeth_longest_len]
 
     return render_template('gutenberg.html',
-        file_ids=file_ids)
-
-@app.route('/brown')
-def brown():
-    from nltk.corpus import brown
-    file_ids = get_fileids(brown)
-
-    categories = [category for category in brown.categories()]
-
-    news_text = brown.words(categories='news')
-    # frequent distribution
-    fdist = nltk.FreqDist([w.lower() for w in news_text])
-
-    most_common = fdist.most_common(50)
-
-    # modal verbs
-    modals_verbs = ['can', 'could', 'may', 'might', 'must', 'will']
-    determiners = ['who', 'which', 'when', 'what', 'where', 'how']
-    modal_verbs = [(modal, fdist[modal]) for modal in modals_verbs]
-    determiners_pos = [(d, fdist[d]) for d in determiners]
-
-    return render_template('brown.html',
         file_ids=file_ids,
-        categories=categories,
-        news_text=news_text,
-        fdist=fdist,
-        most_common=most_common,
-        modal_verbs=modal_verbs,
-        determiners_pos=determiners_pos) 
+        emma=emma,
+        emma_len=emma_len,
+        macbeth_longest_sent=macbeth_longest_sent)
 
-@app.route('/reuters')
-def reuters():
-    from nltk.corpus import reuters
-    categories = [category for category in reuters.categories()]
-
-    return render_template('reuters.html',
-        categories=categories)
 
 @app.route('/webtext')
 def webtext():
@@ -122,6 +69,66 @@ def webtext():
         file_ids=file_ids,
         chat_file_ids=chat_file_ids,
         pirates=pirates)
+
+
+@app.route('/brown')
+def brown():
+    from nltk.corpus import brown
+    file_ids = get_fileids(brown)
+
+    categories = [category for category in brown.categories()]
+
+    news_text = brown.words(categories='news')
+    # frequent distribution
+    fdist = nltk.FreqDist([w.lower() for w in news_text])
+
+    most_common = fdist.most_common(50)
+
+    # modal verbs
+    modal_verbs = ['can', 'could', 'may', 'might', 'must', 'will', 'shall', 'should', 'would']
+    determiners = ['who', 'which', 'when', 'what', 'where', 'how']
+    modal_verbs_frequency = [(modal, fdist[modal]) for modal in modal_verbs]
+    determiners_pos = [(d, fdist[d]) for d in determiners]
+
+    return render_template('brown.html',
+        file_ids=file_ids,
+        categories=categories,
+        news_text=news_text,
+        fdist=fdist,
+        most_common=most_common,
+        modal_verbs=modal_verbs,
+        modal_verbs_frequency=modal_verbs_frequency,
+        determiners_pos=determiners_pos) 
+
+
+
+@app.route('/inaugural')
+def inaugural():
+    from nltk.corpus import inaugural
+    file_ids = get_fileids(inaugural)
+    speech = file_ids[-1]
+    
+    raw_text = get_raw_text(inaugural, speech)
+    text_count = get_text_count(inaugural, speech)
+    uniqs_count = get_uniqs_count(inaugural, speech)
+    uniqs = get_uniqs(inaugural, speech)
+
+    return render_template('inaugural.html',
+        file_ids=file_ids,
+        raw_text=raw_text,
+        text_count=text_count,
+        uniqs_count=uniqs_count,
+        uniqs=uniqs)
+    # reuters_categories = get_categories(reuters)
+    # reuters_categories=reuters_categories
+
+@app.route('/reuters')
+def reuters():
+    from nltk.corpus import reuters
+    categories = [category for category in reuters.categories()]
+
+    return render_template('reuters.html',
+        categories=categories)
 
 # movie this to gutenberg
 @app.route('/alice')

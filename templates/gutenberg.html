@@ -3,6 +3,7 @@
 {% block content %}
     <div class="col-md-12">
         <h4>Gutenberg</h4>
+        <p>NLTK includes a small selection of texts from the Project Gutenberg electronic text archive, which contains some 25,000 free electronic books, hosted at <a href="http://www.gutenberg.org/" target="_blank">http://www.gutenberg.org/</a></p>
         <p><strong>All File IDs in the Gutenberg Corpus</strong></p>
         <ul class="list-unstyled">
             {% for file in file_ids %}
@@ -10,6 +11,13 @@
             {% endfor %}
         </ul>
 
-        <p><strong>Longest sentence (Macbeth):</strong> {{ longest_len }}</p>
+        <h5><em>Emma</em> by Jane Austen</h5>
+        <p>Words: {{ emma }}</p>
+        <p>How many words <em>Emma</em> contains: {{ emma_len }}</p>
+
+        <h5><em>Macbeth</em> by Shakespears</h5>
+        <p>Longest sentence in Macbeth: {{ macbeth_longest_sent }}</p>
+
+        {#<p><strong>Longest sentence (Macbeth):</strong> {{ longest_len }}</p> #}
     </div>
 {% endblock content %}

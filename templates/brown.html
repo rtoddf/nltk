@@ -3,6 +3,13 @@
 {% block content %}
     <div class="col-md-12">
         <h4>Brown</h4>
+        <p>The Brown Corpus was the first million-word electronic corpus of English, created in 1961 at Brown University. This corpus contains text from 500 sources, and the sources have been categorized by genre, such as news, editorial, and so on.</p>
+        <p>The Brown Corpus is a convenient resource for studying systematic differences between genres, a kind of linguistic inquiry known as stylistics.</p>
+
+        <h5>File IDs:</h5>
+        {% for file in file_ids %}
+            <span>{{ file }}, </span>
+        {% endfor %}
 
         <h5>Categories:</h5>
         <ul class="list-unstyled">
@@ -11,13 +18,33 @@
             {% endfor %}
         </ul>
 
+        <p>Let's compare genres in their usage of modal verbs. The first step is to produce the counts for a particular genre.</p>
+
+        <h5>News Raw Text:</h5>
         <p>{{ news_text }}</p>
 
+        <h5>Frequency Distribution of News Text:</h5>
         <p>{{ fdist }}</p>
 
+        <h5>Top 50 most common words (including punctucation):</h5>
         <p>{{ most_common }}</p>
 
-        <p>{{ modal_verbs }}</p>
+        <h5>Modal Verbs (an auxiliary verb that expresses necessity or possibility)</h5>
+        <p>
+            {% for verb in modal_verbs %}
+                <span>{{ verb }}, </span>
+            {% endfor %}
+        </p>
+
+        <h5>Frequency of modal Verbs in News text:</h5>
+        <table>
+            {% for verb_fequency in modal_verbs_frequency %}
+                <tr>
+                    <td><strong>{{ verb_fequency[0] }}</strong></td>
+                    <td>{{ verb_fequency[1] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
 
         <p>{{ determiners_pos }}</p>
     </div>
