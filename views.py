@@ -1,18 +1,39 @@
+import json
+import requests
+import nltk
+
+from urllib import urlopen
+from pprint import pprint
+
 from flask import Flask
 from flask import render_template
 
 from app import app
-
-import nltk
 from helpers import get_lexical_diversity, get_fileids, get_categories, get_raw_text, get_text_count, get_uniqs_count, get_uniqs, get_word_count, get_total_word_count
-
-# from random import choice
-# import pprint
-# import time
 
 @app.route('/')
 def home():
     return render_template('index.html')
+
+@app.route('/scraper')
+def scraper():
+    from bs4 import BeautifulSoup
+
+    html_doc = 'https://www.cia.gov/library/publications/the-world-factbook/geos/us.html'
+    page = urlopen(html_doc).read()
+
+    soup = BeautifulSoup(page)
+
+    something = soup.find_all(id='CollapsiblePanel1_Intro')
+    # somethings = soup.find('div', class_='answer').find('div', class_='category_data').contents[0]
+    somethings = soup.find_all('div', class_='answer')
+
+    print somethings
+
+    print soup.title.contents[0]
+    return render_template('scraper.html',
+        something=something,
+        somethings=somethings)
 
 @app.route('/gutenberg')
 def gutenberg():
