@@ -19,21 +19,39 @@ def home():
 def scraper():
     from bs4 import BeautifulSoup
 
-    html_doc = 'https://www.cia.gov/library/publications/the-world-factbook/geos/us.html'
-    page = urlopen(html_doc).read()
+    r = requests.get('https://www.cia.gov/library/publications/the-world-factbook/geos/countrytemplate_us.html')
+    soup = BeautifulSoup(r.content)
 
-    soup = BeautifulSoup(page)
+    wrappers = soup.find_all('div', class_='CollapsiblePanel')
+    
+    questions = []
+    all_categories = []
+    all_answers = []
 
-    something = soup.find_all(id='CollapsiblePanel1_Intro')
-    # somethings = soup.find('div', class_='answer').find('div', class_='category_data').contents[0]
-    somethings = soup.find_all('div', class_='answer')
+    for wrapper in wrappers:
+        questions.append(wrapper.find_all('h2', class_='question')[0].text)
+        qs = wrapper.find_all('h2', class_='question')
 
-    print somethings
+    for box in soup.find_all('div', class_='box'):
+        categories = []
+        for category in box.find_all('tr', class_='noa_light'):
+            categories.append(category.find_all('a')[0].text.replace(':', ''))
 
-    print soup.title.contents[0]
+            category_answers = []
+            for answer in category.find_next_siblings('tr'):
+                if answer.find_all('div', class_='category_data') != []:
+                    the_answer = answer.find_all('div', class_='category_data')[0].text
+                    category_answers.append(the_answer)
+
+            print category.find_all('a')[0].text.replace(':', '')
+            print category_answers
+            print '******'
+
+        all_categories.append(categories)
+
     return render_template('scraper.html',
-        something=something,
-        somethings=somethings)
+        questions=questions,
+        all_categories=all_categories)
 
 @app.route('/gutenberg')
 def gutenberg():

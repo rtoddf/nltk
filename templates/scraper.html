@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h3>Scraper</h3>
-
-
+    <h3>Questions</h3>
+    {% for question in questions %}
+        <h4>{{ loop.index }} - {{ question }}</h4>
+        {% for category in all_categories[loop.index] %}
+            <h5>{{ category }}</h5>
+        {% endfor %}
+    {% endfor %}
 {% endblock content %}

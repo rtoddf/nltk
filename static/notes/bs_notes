@@ -1,0 +1,37 @@
+r = "url"
+r.content
+
+soup = BeaufitulSoup(r.content)
+
+soup.prettify
+
+soup.find_all('a')
+
+for link in soup.find_all('a'):
+	print link.get('href')
+	print link.text, link.get('href')
+
+	print "<a href='%s'>%s</a>" %(link.get('href'), link.text)
+
+g_data = soup.find_all('div', {'class': 'info'})
+
+print g_data
+# is a list
+
+for item in g_data:
+	print item.contents
+# are sets of lists
+
+
+item.content[0]
+item.content[0].text
+item.content[0].find_all('a', {'class': 'name'}).text
+
+item.content[1]
+item.content[1].text
+
+try:
+	something
+except:
+	pass
+
