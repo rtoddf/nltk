@@ -24,34 +24,38 @@ def scraper():
 
     wrappers = soup.find_all('div', class_='CollapsiblePanel')
     
-    questions = []
-    all_categories = []
+    headings = []
+    subheadings = []
     all_answers = []
+    something = {}
 
     for wrapper in wrappers:
-        questions.append(wrapper.find_all('h2', class_='question')[0].text)
+        headings.append(wrapper.find_all('h2', class_='question')[0].text)
         qs = wrapper.find_all('h2', class_='question')
 
     for box in soup.find_all('div', class_='box'):
-        categories = []
-        for category in box.find_all('tr', class_='noa_light'):
-            categories.append(category.find_all('a')[0].text.replace(':', ''))
+        subheadings_for_heading = []
+        for subheading in box.find_all('tr', class_='noa_light'):
+            subheadings_for_heading.append(subheading.find_all('a')[0].text.replace(':', ''))
 
-            category_answers = []
-            for answer in category.find_next_siblings('tr'):
-                if answer.find_all('div', class_='category_data') != []:
-                    the_answer = answer.find_all('div', class_='category_data')[0].text
-                    category_answers.append(the_answer)
+            this = subheading.find_all('a')[0].text.replace(':', '')
+            subheading_data = []
+            
+            for answer in subheading.find_next_siblings('tr'):
+                the_answer = answer.find_all('div', class_='category_data')
+                subheading_data.append(the_answer)
 
-            print category.find_all('a')[0].text.replace(':', '')
-            print category_answers
-            print '******'
+            something[this] = subheading_data
 
-        all_categories.append(categories)
+        subheadings.append(subheadings_for_heading)
+
+    pprint(something)
+
 
     return render_template('scraper.html',
-        questions=questions,
-        all_categories=all_categories)
+        headings=headings,
+        subheadings=subheadings,
+        something=something)
 
 @app.route('/gutenberg')
 def gutenberg():

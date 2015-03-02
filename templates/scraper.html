@@ -2,10 +2,14 @@
 
 {% block content %}
     <h3>Questions</h3>
-    {% for question in questions %}
-        <h4>{{ loop.index }} - {{ question }}</h4>
-        {% for category in all_categories[loop.index] %}
-            <h5>{{ category }}</h5>
+    {% for heading in headings %}
+        <h4>{{ loop.index }} - {{ heading }}</h4>
+        {% for subheading in subheadings[loop.index] %}
+            <h5>{{ subheading }}</h5>
         {% endfor %}
     {% endfor %}
+
+    
+    <h3>all_answers</h3>
+    {{ something }}
 {% endblock content %}
